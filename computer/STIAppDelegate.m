@@ -79,6 +79,8 @@
     */
     
     
+    //SECCION PARA INICIAR LA APP DESDE LA tableViewControler
+    /*
     //creamos el objeto del modelo
     STIComputerStoreModel *computerStore = [[STIComputerStoreModel alloc] init];
     
@@ -90,7 +92,31 @@
     
     //la definimos como controlador Raiz
     self.window.rootViewController = navVC;
+    */
     
+    
+    //SECCION PARA USAR splitViewControler
+    
+    //Creamos el modelo
+    STIComputerStoreModel *computerStore = [[STIComputerStoreModel alloc] init];
+    
+    //creamso los controladores
+    STIcomputerStoreViewController *computerStoreVC = [[STIcomputerStoreViewController alloc] initWithModel:computerStore style:UITableViewStylePlain];
+    
+    STIcomputerViewController *computerVC = [[STIcomputerViewController alloc] initWithModel:[computerStore desktopComputerAtIndex:0 ]];
+    
+    //creamos los navigation
+    UINavigationController *computerStoreNav = [[UINavigationController alloc] initWithRootViewController:computerStoreVC];
+    
+    UINavigationController *computerNav = [[UINavigationController alloc] initWithRootViewController:computerVC];
+    
+    
+    //creamos el combinador
+    UISplitViewController * splitVC = [[UISplitViewController alloc] init];
+    splitVC.viewControllers = @[computerStoreNav, computerNav];
+    
+    //definimos el controlador raiz
+    self.window.rootViewController = splitVC;
     
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];
