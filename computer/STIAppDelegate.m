@@ -115,6 +115,9 @@
     UISplitViewController * splitVC = [[UISplitViewController alloc] init];
     splitVC.viewControllers = @[computerStoreNav, computerNav];
     
+    //asignamos el delegado
+    splitVC.delegate = computerVC;
+    
     //definimos el controlador raiz
     self.window.rootViewController = splitVC;
     
