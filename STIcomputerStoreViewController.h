@@ -13,9 +13,19 @@
 #define LAPTOP_COMPUTER_SECTION 1
 #define OTHER_COMPUTER_SECTION 2
 
+@class STIcomputerStoreViewController;
+
+@protocol computerStoreViewControllerDelegate <NSObject>
+
+-(void) computerStoreViewController:(STIcomputerStoreViewController *) computerStoreVC
+                     didSelectedComputer:(STIcomputerModel *) aComputer;
+
+@end
+
 @interface STIcomputerStoreViewController : UITableViewController
 
 @property (strong, nonatomic) STIComputerStoreModel * model;
+@property (weak, nonatomic) id<computerStoreViewControllerDelegate> delegate;
 
 -(id) initWithModel:(STIComputerStoreModel *) aModel
               style:(UITableViewStyle) aStyle;

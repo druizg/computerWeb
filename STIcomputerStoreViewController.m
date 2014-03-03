@@ -184,11 +184,16 @@
         computer = [self.model otherComputerAtIndex:indexPath.row];
     }
     
+    /*
     //luego creamos un controlador para dicha computadora
     STIcomputerViewController *computerVC = [[STIcomputerViewController alloc] initWithModel:computer];
     
     //hacemos un push al navigationControler dentro del cual estamos
-    [self.navigationController pushViewController:computerVC animated:YES];
+    [self.navigationController pushViewController:computerVC animated:YES];*/
+    
+    
+    [self.delegate computerStoreViewController:self
+                           didSelectedComputer:computer];
 }
 
 @end
