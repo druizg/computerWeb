@@ -123,7 +123,7 @@
     NSString * repr = nil;
     
     if ([arrayKeybordLanguajes count] == 1) {
-        repr = [ @"Disponible al 100% en: " stringByAppendingString: [arrayKeybordLanguajes lastObject]];
+        repr = [ @"Disponible al 99% en: " stringByAppendingString: [arrayKeybordLanguajes lastObject]];
     }else{
         repr = [[arrayKeybordLanguajes componentsJoinedByString:@","] stringByAppendingString:@"."];
     }
