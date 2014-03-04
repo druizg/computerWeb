@@ -16,6 +16,10 @@
 #define NEW_COMPUTER_NOTIFICATION_NAME @"newComputer"
 #define COMPUTER_KEY @"computer"
 
+#define SECTION_KEY @"section"
+#define ROW_KEY @"row"
+#define LAST_COMPUTER_KEY @"last_computer"
+
 
 @class STIcomputerStoreViewController;
 
@@ -33,5 +37,7 @@
 
 -(id) initWithModel:(STIComputerStoreModel *) aModel
               style:(UITableViewStyle) aStyle;
+
+-(STIcomputerModel *) lastSelectedComputer;
 
 @end

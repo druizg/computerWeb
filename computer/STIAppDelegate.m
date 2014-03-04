@@ -19,81 +19,6 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    /*
-    //creamos un objeto del modelo
-    STIcomputerModel * probook = [STIcomputerModel
-                                  computerWithModelComputer: @"ProBook"
-                                            computerCompany: @"HP"
-                                                       type:@"Desktop"
-                                                      notes:@"Esta computadora esta equipada con un gran monitor de resolucion intermedia incluye teclado numérico. Entre sus caracteristicas internas cuenta con 4GB de RAM (de origen) un procesador Intel Core 2 Duo de 64bits. Los discos duros para este tipo de equipos son con capacidades de almacenamiento  superiores a los 400 GB. Circuitos internos de alta resistencia capaces de soportar varios dias de arduo trabajo sin descanzo. Ademas de que la bateria con la que cuenta tiene una duracion de una semana si la computadora esta encendida pero sin consumir recursos y duracion de 4 dias si el equipo esta siendo usado al 100% de su capacidad. IDEAL PARA EL TRABAJO RUDO."
-                                                    photo:nil
-                                    keybordLanguaje: @[@"Latinoamericano"]
-                                                   inches:17
-                                                   rating:3
-                                  computerCompanyWeb:[NSURL URLWithString:@"http://www.hp.com"]];
-    
-    STIcomputerModel * satellite = [STIcomputerModel
-                                  computerWithModelComputer: @"Satellite"
-                                  computerCompany: @"TOSHIBA"
-                                  type:@"Laptop"
-                                  notes:@"Esta computadora esta equipada con un gran monitor de resolucion intermedia incluye teclado numérico. Entre sus caracteristicas internas cuenta con 4GB de RAM (de origen) un procesador Intel Core 2 Duo de 64bits. Los discos duros para este tipo de equipos son con capacidades de almacenamiento  superiores a los 400 GB. Circuitos internos de alta resistencia capaces de soportar varios dias de arduo trabajo sin descanzo. Ademas de que la bateria con la que cuenta tiene una duracion de una semana si la computadora esta encendida pero sin consumir recursos y duracion de 4 dias si el equipo esta siendo usado al 100% de su capacidad. IDEAL PARA EL TRABAJO RUDO."
-                                  photo:nil
-                                  keybordLanguaje: @[@"Latinoamerica", @"Inglés", @"chino"]
-                                  inches:15
-                                  rating:2
-                                  computerCompanyWeb:[NSURL URLWithString:@"http://www.toshiba.com"]];
-    
-    STIcomputerModel * vostro = [STIcomputerModel
-                                    computerWithModelComputer: @"VOSTRO"
-                                    computerCompany: @"DELL"
-                                    type:@"Laptop"
-                                    notes:@"Esta computadora esta equipada con un gran monitor de resolucion intermedia incluye teclado numérico. Entre sus caracteristicas internas cuenta con 4GB de RAM (de origen) un procesador Intel Core 2 Duo de 64bits. Los discos duros para este tipo de equipos son con capacidades de almacenamiento  superiores a los 400 GB. Circuitos internos de alta resistencia capaces de soportar varios dias de arduo trabajo sin descanzo. Ademas de que la bateria con la que cuenta tiene una duracion de una semana si la computadora esta encendida pero sin consumir recursos y duracion de 4 dias si el equipo esta siendo usado al 100% de su capacidad. IDEAL PARA EL TRABAJO RUDO."
-                                    photo:nil
-                                    keybordLanguaje: @[@"Español", @"Inglés", @"Portugués"]
-                                    inches:17
-                                    rating:5
-                                    computerCompanyWeb:[NSURL URLWithString:@"http://www.dell.com"]];
-    
-    //creamos los controladores
-    STIcomputerViewController *probookVC = [[STIcomputerViewController alloc] initWithModel:probook ];
-    STIcomputerViewController *satelliteVC = [[STIcomputerViewController alloc] initWithModel:satellite ];
-    STIcomputerViewController *vostroVC = [[STIcomputerViewController alloc] initWithModel:vostro];
-    //STIWebViewController *browserVC = [[STIWebViewController alloc] initWithModel: probook];
-    
-    //creacion del combinador
-   // UITabBarController *combinadorVC = [[UITabBarController alloc] init];
-    //combinadorVC.viewControllers = @[computerVC, browserVC];
-    UINavigationController *probookNC = [[UINavigationController alloc] initWithRootViewController:probookVC];
-    UINavigationController *satelliteNC = [[UINavigationController alloc] initWithRootViewController:satelliteVC];
-    UINavigationController *vostroNC = [[UINavigationController alloc] initWithRootViewController:vostroVC];
-    
-    
-    //creamos el combinador
-    UITabBarController *combinadorVC = [[UITabBarController alloc] init];
-    combinadorVC.viewControllers = @[probookNC, satelliteNC, vostroNC];
-    
-    //asignamos el controlador creado como controlador Raiz
-    //self.window.rootViewController = computerVC;
-    //self.window.rootViewController = browserVC;
-    self.window.rootViewController = combinadorVC;
-    */
-    
-    
-    //SECCION PARA INICIAR LA APP DESDE LA tableViewControler
-    /*
-    //creamos el objeto del modelo
-    STIComputerStoreModel *computerStore = [[STIComputerStoreModel alloc] init];
-    
-    //creamos el controlador
-    STIcomputerStoreViewController *computerStoreVC = [[STIcomputerStoreViewController alloc] initWithModel:computerStore style:UITableViewStylePlain];
-    
-    //creamos el combinador (una navigation)
-    UINavigationController * navVC = [[UINavigationController alloc] initWithRootViewController:computerStoreVC];
-    
-    //la definimos como controlador Raiz
-    self.window.rootViewController = navVC;
-    */
-    
     
     //SECCION PARA USAR splitViewControler
     
@@ -103,7 +28,7 @@
     //creamso los controladores
     STIcomputerStoreViewController *computerStoreVC = [[STIcomputerStoreViewController alloc] initWithModel:computerStore style:UITableViewStylePlain];
     
-    STIcomputerViewController *computerVC = [[STIcomputerViewController alloc] initWithModel:[computerStore desktopComputerAtIndex:0 ]];
+    STIcomputerViewController *computerVC = [[STIcomputerViewController alloc] initWithModel:[computerStoreVC lastSelectedComputer]];
     
     //creamos los navigation
     UINavigationController *computerStoreNav = [[UINavigationController alloc] initWithRootViewController:computerStoreVC];

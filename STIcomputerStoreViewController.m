@@ -201,6 +201,80 @@
                                                         userInfo:@{COMPUTER_KEY: computer}];
     
     [[NSNotificationCenter defaultCenter] postNotification:notif];
+    
+    
+    //Guardar la última computadora selecccionada
+    [self saveLastComputerSelectedAtSection:indexPath.section row:indexPath.row];
 }
+
+
+#pragma mark - Utils
+-(STIcomputerModel *) computerForIndexPath:(NSIndexPath *) indexPath
+{
+    //averiguamos de que computadora se trata
+    STIcomputerModel *computer = nil;
+    
+    if (indexPath.section == DESKTOP_COMPUTER_SECTION) {
+        computer = [self.model desktopComputerAtIndex:indexPath.row];
+    }else if (indexPath.section == LAPTOP_COMPUTER_SECTION){
+        computer = [self.model laptopComputerAtIndex:indexPath.row];
+    }else{
+        computer = [self.model otherComputerAtIndex:indexPath.row];
+    }
+    
+    return computer;
+}
+
+
+
+#pragma mark - NSUserDefaullts
+
+//este método es creado para que la primera vez que se arranque la aplicacion cargue una computadora por default (ya que el usuario aun no elige alguna)
+-(NSDictionary *) setDefaults
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    NSDictionary * defaultComputerCoords = @{SECTION_KEY: @(DESKTOP_COMPUTER_SECTION), ROW_KEY:@0};
+    
+    [defaults setObject: defaultComputerCoords forKey:LAST_COMPUTER_KEY];
+    
+    [defaults synchronize];
+    
+    return defaultComputerCoords;
+}
+
+-(void) saveLastComputerSelectedAtSection: (NSUInteger) section row:(NSUInteger) row
+{
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    
+    [defaults setObject: @{SECTION_KEY: @(section), ROW_KEY:@(row)} forKey:LAST_COMPUTER_KEY];
+    
+    [defaults synchronize];
+}
+
+-(STIcomputerModel *) lastSelectedComputer
+{
+    NSIndexPath *indexPath = nil;
+    NSDictionary *coords = nil;
+    
+    coords = [[NSUserDefaults standardUserDefaults] objectForKey:LAST_COMPUTER_KEY];
+    
+    if (coords == nil) {
+        //no habia nada bajo la clave LAST_COMPUTER_KEY
+        //Esto quiere decir que es la primera vez que se llama a la app
+        //ponemos un valor por defecto: la primera de las desktop
+        
+        coords = [self setDefaults];
+    }else{
+        //ya hay algo que en algun momento se guardó
+        //y no hay nada especial que hacer
+    }
+    
+    //transformamos las coordenadas en un indexPath
+    indexPath = [NSIndexPath indexPathForRow:[[coords objectForKey:ROW_KEY] integerValue] inSection:[[coords objectForKey:SECTION_KEY] integerValue]];
+    
+    return [self computerForIndexPath:indexPath];
+}
+
 
 @end
