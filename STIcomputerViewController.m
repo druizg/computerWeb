@@ -8,6 +8,7 @@
 
 #import "STIcomputerViewController.h"
 #import "STIWebViewController.h"
+#import "STIcomputerStoreViewController.h"
 
 @implementation STIcomputerViewController
 
@@ -146,6 +147,18 @@
   invalidatingBarButtonItem:(UIBarButtonItem *)barButtonItem
 {
     self.navigationItem.rightBarButtonItem = nil;
+}
+
+
+#pragma mark - computerStoreViewControllerDelegate
+
+-(void) computerStoreViewController:(STIcomputerStoreViewController *) computerStoreVC
+                didSelectedComputer:(STIcomputerModel *) aComputer
+{
+    self.model = aComputer;
+    self.title = aComputer.modelComputer;
+    
+    [self syncModelWithView];
 }
 
 

@@ -194,6 +194,13 @@
     
     [self.delegate computerStoreViewController:self
                            didSelectedComputer:computer];
+    
+    //notificaciones
+    NSNotification *notif = [NSNotification notificationWithName:NEW_COMPUTER_NOTIFICATION_NAME
+                                                          object:self
+                                                        userInfo:@{COMPUTER_KEY: computer}];
+    
+    [[NSNotificationCenter defaultCenter] postNotification:notif];
 }
 
 @end

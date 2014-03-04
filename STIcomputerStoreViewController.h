@@ -13,6 +13,10 @@
 #define LAPTOP_COMPUTER_SECTION 1
 #define OTHER_COMPUTER_SECTION 2
 
+#define NEW_COMPUTER_NOTIFICATION_NAME @"newComputer"
+#define COMPUTER_KEY @"computer"
+
+
 @class STIcomputerStoreViewController;
 
 @protocol computerStoreViewControllerDelegate <NSObject>

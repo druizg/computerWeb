@@ -7,6 +7,7 @@
 //
 
 #import "STIWebViewController.h"
+#import "STIcomputerStoreViewController.h"
 
 
 @implementation STIWebViewController
@@ -28,7 +29,36 @@
     [super viewWillAppear:animated];
     
     [self displayURL: self.model.computerCompanyWeb];
+    
+    
+    //Alta en notificacion
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+    [center addObserver:self
+               selector:@selector(computerDidChanged:)
+                   name:NEW_COMPUTER_NOTIFICATION_NAME
+                 object:nil];
+    
 }
+
+-(void) viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    
+    //baja en notificacion
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+}
+
+-(void) computerDidChanged:(NSNotification *) notification
+{
+    NSDictionary *dict = [notification userInfo];
+    
+    STIcomputerModel *newComputer = [dict objectForKey:COMPUTER_KEY];
+    
+    self.model = newComputer;
+    [self displayURL: self.model.computerCompanyWeb];
+}
+
 
 - (void)didReceiveMemoryWarning
 {
