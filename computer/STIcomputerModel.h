@@ -24,6 +24,7 @@
     @property (nonatomic) int rating;
 
     @property (strong, nonatomic) NSURL *computerCompanyWeb;
+    @property (strong, nonatomic) NSURL *photoURL;
 
 
 //METODOS DE CLASE
@@ -32,11 +33,12 @@
                  computerCompany:(NSString *) aComputerCompany
                             type:(NSString *) aType
                            notes:(NSString *) aNotes
-                           photo:(UIImage *) aPhoto
-                 keybordLanguaje:(NSArray *) aKeyborLangaje
+                           //photo:(UIImage *) aPhoto
+                 keyboardLanguages:(NSArray *) aKeyborLangaje
                           inches:(int) anInches
                           rating:(int) aRating
-              computerCompanyWeb:(NSURL *) aURL;
+             computerCompanyWeb:(NSURL *) aURL
+                       photoURL:(NSURL *) aPhotoURL;
 
 +(id) computerWithModelComputer:(NSString *)aModelComputer
                  computerCompany:(NSString *)aComputerCompany
@@ -45,18 +47,25 @@
 
 
 #pragma mark - INIT
+//inicializador designado
 -(id) initWithModelComputer:(NSString *) aModelComputer
              computerCompany:(NSString *) aComputerCompany
                         type:(NSString *) aType
                        notes:(NSString *) aNotes
-                       photo:(UIImage *) aPhoto
-             keybordLanguaje:(NSArray *) aKeyborLangaje
+                       //photo:(UIImage *) aPhoto
+             keyboardLanguages:(NSArray *) aKeyborLangaje
                       inches:(int) anInches
                       rating:(int) aRating
-          computerCompanyWeb:(NSURL *) aURL;
+         computerCompanyWeb:(NSURL *) aURL
+                   photoURL:(NSURL *)aPhotoURL;
 
+//inicializador de conveniencia
 -(id) initWithModelComputer:(NSString *) aModelComputer
              computerCompany:(NSString *) aComputerCompany
                         type:(NSString *) aType
                       inches:(int) anInches;
+
+//inicializador a partir de un diccionario JSON
+-(id) initWithDictionary:(NSDictionary *) aDict;
+
 @end

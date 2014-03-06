@@ -9,6 +9,10 @@
 #import <Foundation/Foundation.h>
 #import "STIcomputerModel.h"
 
+#define DESKTOP_COMPUTER_KEY @"desktop"
+#define LAPTOP_COMPUTER_KEY @"laptop"
+#define OTHER_COMPUTHER_HEY @"other"
+
 @interface STIComputerStoreModel : NSObject
 
 @property (readonly, nonatomic) int desktopComputerCount;

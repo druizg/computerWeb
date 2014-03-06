@@ -10,9 +10,9 @@
 
 @interface STIComputerStoreModel()
 
-@property (strong, nonatomic) NSArray * desktpComputers;
-@property (strong, nonatomic) NSArray * laptopComputers;
-@property (strong, nonatomic) NSArray * otherComputers;
+@property (strong, nonatomic) NSMutableArray * desktpComputers;
+@property (strong, nonatomic) NSMutableArray * laptopComputers;
+@property (strong, nonatomic) NSMutableArray * otherComputers;
 
 @end
 
@@ -23,42 +23,58 @@
 -(id) init
 {
     if(self = [super init]){
-        STIcomputerModel * probook = [STIcomputerModel
-                                      computerWithModelComputer: @"ProBook"
-                                      computerCompany: @"HP"
-                                      type:@"Desktop"
-                                      notes:@"Esta computadora esta equipada con un gran monitor de resolucion intermedia incluye teclado numérico. Entre sus caracteristicas internas cuenta con 4GB de RAM (de origen) un procesador Intel Core 2 Duo de 64bits. Los discos duros para este tipo de equipos son con capacidades de almacenamiento  superiores a los 400 GB. Circuitos internos de alta resistencia capaces de soportar varios dias de arduo trabajo sin descanzo. Ademas de que la bateria con la que cuenta tiene una duracion de una semana si la computadora esta encendida pero sin consumir recursos y duracion de 4 dias si el equipo esta siendo usado al 100% de su capacidad. IDEAL PARA EL TRABAJO RUDO."
-                                      photo:[UIImage imageNamed:@"desktop-computer.jpg"]
-                                      keybordLanguaje: @[@"Latinoamericano"]
-                                      inches:17
-                                      rating:3
-                                      computerCompanyWeb:[NSURL URLWithString:@"http://www.hp.com"]];
+        NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:@"http://192.168.1.48/arcgis/rest/services/computerStore/MapServer/0/query?where=1%3D1&outFields=*&returnGeometry=false&f=json"]];
+        NSURLResponse *response = [[NSURLResponse alloc] init];
+        NSError *error= nil;
         
-        STIcomputerModel * satellite = [STIcomputerModel
-                                        computerWithModelComputer: @"Satellite"
-                                        computerCompany: @"TOSHIBA"
-                                        type:@"Laptop"
-                                        notes:@"Esta computadora esta equipada con un gran monitor de resolucion intermedia incluye teclado numérico. Entre sus caracteristicas internas cuenta con 4GB de RAM (de origen) un procesador Intel Core 2 Duo de 64bits. Los discos duros para este tipo de equipos son con capacidades de almacenamiento  superiores a los 400 GB. Circuitos internos de alta resistencia capaces de soportar varios dias de arduo trabajo sin descanzo. Ademas de que la bateria con la que cuenta tiene una duracion de una semana si la computadora esta encendida pero sin consumir recursos y duracion de 4 dias si el equipo esta siendo usado al 100% de su capacidad. IDEAL PARA EL TRABAJO RUDO."
-                                        photo:[UIImage imageNamed:@"laptop-computer.jpg"]                                        keybordLanguaje: @[@"Latinoamerica", @"Inglés", @"chino"]
-                                        inches:15
-                                        rating:2
-                                        computerCompanyWeb:[NSURL URLWithString:@"http://www.toshiba.com"]];
+        NSData *data = [NSURLConnection sendSynchronousRequest:request
+                                             returningResponse:&response
+                                                         error:&error];
         
-        STIcomputerModel * vostro = [STIcomputerModel
-                                     computerWithModelComputer: @"VOSTRO"
-                                     computerCompany: @"DELL"
-                                     type:@"Laptop"
-                                     notes:@"Esta computadora esta equipada con un gran monitor de resolucion intermedia incluye teclado numérico. Entre sus caracteristicas internas cuenta con 4GB de RAM (de origen) un procesador Intel Core 2 Duo de 64bits. Los discos duros para este tipo de equipos son con capacidades de almacenamiento  superiores a los 400 GB. Circuitos internos de alta resistencia capaces de soportar varios dias de arduo trabajo sin descanzo. Ademas de que la bateria con la que cuenta tiene una duracion de una semana si la computadora esta encendida pero sin consumir recursos y duracion de 4 dias si el equipo esta siendo usado al 100% de su capacidad. IDEAL PARA EL TRABAJO RUDO."
-                                     photo:[UIImage imageNamed:@"other-computer.jpg"]
-                                     keybordLanguaje: @[@"Español", @"Inglés", @"Portugués"]
-                                     inches:17
-                                     rating:5
-                                     computerCompanyWeb:[NSURL URLWithString:@"http://www.dell.com"]];
-        
-        self.desktpComputers = @[probook];
-        self.laptopComputers = @[vostro];
-        self.otherComputers  = @[satellite];
-    
+        if (data != nil) {
+            //no ha habido error
+            NSDictionary *allJSONObjects =  [NSJSONSerialization JSONObjectWithData:data
+                                                                            options: kNilOptions
+                                                                              error:&error];
+            
+            if (allJSONObjects != nil) {
+                NSArray *featuresArray = [allJSONObjects objectForKey:@"features"];
+                if (featuresArray != nil) {
+                    for(NSDictionary *feature in featuresArray){
+                        NSDictionary *attribs = [feature objectForKey:@"attributes"];
+                        
+                        STIcomputerModel *computer = [[STIcomputerModel alloc] initWithDictionary:attribs];
+                        
+                        //añadimos al array del tipo Adecuado
+                        if ([[computer.type lowercaseString] isEqualToString: DESKTOP_COMPUTER_KEY]) {
+                            if (!self.desktpComputers) {
+                                self.desktpComputers = [NSMutableArray arrayWithObject:computer];
+                            }else{
+                                [self.desktpComputers addObject:computer];
+                            }
+                        }else if ([[computer.type lowercaseString] isEqualToString:LAPTOP_COMPUTER_KEY]){
+                            if (!self.laptopComputers) {
+                                self.laptopComputers = [NSMutableArray arrayWithObject:computer];
+                            }else{
+                                [self.laptopComputers addObject:computer];
+                            }
+                        }else{
+                            if (!self.otherComputers) {
+                                self.otherComputers = [NSMutableArray arrayWithObject:computer];
+                            }else{
+                                [self.otherComputers addObject:computer];
+                            }
+                        }
+                    }
+                }else{
+                    NSLog(@"No se pudo obtener el array Features");
+                }
+            }else {
+                NSLog(@"Error al parsear JSON %@", error.localizedDescription);
+            }
+        }else {
+            NSLog(@"Error al obtener datos del servidor %@", error.localizedDescription);
+        }
     }
     
     return self;
