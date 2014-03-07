@@ -8,7 +8,6 @@
 
 #import "STIcomputerViewController.h"
 #import "STIWebViewController.h"
-#import "STIcomputerStoreViewController.h"
 
 @implementation STIcomputerViewController
 

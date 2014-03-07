@@ -208,6 +208,17 @@
 }
 
 
+#pragma mark -computerStoreViewControllerDelegate
+-(void) computerStoreViewController:(STIcomputerStoreViewController *) computerStoreVC
+                didSelectedComputer:(STIcomputerModel *) aComputer
+{
+    //creamos el controlador
+    STIcomputerViewController *computerVC = [[STIcomputerViewController alloc] initWithModel:aComputer];
+    
+    [self.navigationController pushViewController:computerVC animated:YES];
+}
+
+
 #pragma mark - Utils
 -(STIcomputerModel *) computerForIndexPath:(NSIndexPath *) indexPath
 {

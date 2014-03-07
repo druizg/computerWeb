@@ -16,17 +16,25 @@
 
 @implementation STIAppDelegate
 
-- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+-(UIViewController *) rootViewControllerForPhoneWithModel:(STIComputerStoreModel *) aModel
 {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    //creamos el controlador
+    STIcomputerStoreViewController *computerStoreVC = [[STIcomputerStoreViewController alloc] initWithModel:aModel style:UITableViewStylePlain];
     
-    //SECCION PARA USAR splitViewControler
+    //creamos el navigation - combinador
+    UINavigationController *computerStoreNav = [[UINavigationController alloc] initWithRootViewController:computerStoreVC];
     
-    //Creamos el modelo
-    STIComputerStoreModel *computerStore = [[STIComputerStoreModel alloc] init];
-    
+    //asignamos el delegado
+    computerStoreVC.delegate = computerStoreVC;
+
+    return computerStoreNav;
+}
+
+
+-(UIViewController *) rootViewControllerForPadWithModel:(STIComputerStoreModel *)aModel
+{
     //creamso los controladores
-    STIcomputerStoreViewController *computerStoreVC = [[STIcomputerStoreViewController alloc] initWithModel:computerStore style:UITableViewStylePlain];
+    STIcomputerStoreViewController *computerStoreVC = [[STIcomputerStoreViewController alloc] initWithModel:aModel style:UITableViewStylePlain];
     
     STIcomputerViewController *computerVC = [[STIcomputerViewController alloc] initWithModel:[computerStoreVC lastSelectedComputer]];
     
@@ -35,7 +43,6 @@
     
     UINavigationController *computerNav = [[UINavigationController alloc] initWithRootViewController:computerVC];
     
-    
     //creamos el combinador
     UISplitViewController * splitVC = [[UISplitViewController alloc] init];
     splitVC.viewControllers = @[computerStoreNav, computerNav];
@@ -43,9 +50,30 @@
     //asignamos los delegados
     splitVC.delegate = computerVC;
     computerStoreVC.delegate = computerVC;
+
+    return splitVC;
+}
+
+
+
+- (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
+{
+    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    //definimos el controlador raiz
-    self.window.rootViewController = splitVC;
+    //Creamos el modelo
+    STIComputerStoreModel *computerStore = [[STIComputerStoreModel alloc] init];
+    
+    //configuramos controladores, combinadores y delegados
+    //segun el tipo de dispositivo
+    UIViewController *rootVC = nil;
+    if (!IS_IPHONE) {
+        //Tableta
+        rootVC = [self rootViewControllerForPadWithModel:computerStore];
+    }else{
+        rootVC = [self rootViewControllerForPhoneWithModel:computerStore];
+    }
+    //definimos rootViewController
+    self.window.rootViewController = rootVC;
     
     // Override point for customization after application launch.
     self.window.backgroundColor = [UIColor whiteColor];

@@ -8,8 +8,9 @@
 
 #import <UIKit/UIKit.h>
 #import "STIcomputerModel.h"
+#import "STIcomputerStoreViewController.h"
 
-@interface STIcomputerViewController : UIViewController<UISplitViewControllerDelegate>
+@interface STIcomputerViewController : UIViewController<UISplitViewControllerDelegate, computerStoreViewControllerDelegate>
 
 @property (strong, nonatomic) STIcomputerModel * model;
 

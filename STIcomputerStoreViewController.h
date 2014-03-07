@@ -8,6 +8,7 @@
 
 #import <UIKit/UIKit.h>
 #import "STIComputerStoreModel.h"
+#import "STIComputerStoreModel.h"
 
 #define DESKTOP_COMPUTER_SECTION 0
 #define LAPTOP_COMPUTER_SECTION 1
@@ -30,7 +31,7 @@
 
 @end
 
-@interface STIcomputerStoreViewController : UITableViewController
+@interface STIcomputerStoreViewController : UITableViewController<computerStoreViewControllerDelegate>
 
 @property (strong, nonatomic) STIComputerStoreModel * model;
 @property (weak, nonatomic) id<computerStoreViewControllerDelegate> delegate;

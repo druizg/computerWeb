@@ -444,6 +444,7 @@
 				GCC_PREFIX_HEADER = "computer/computer-Prefix.pch";
 				INFOPLIST_FILE = "computer/computer-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -457,6 +458,7 @@
 				GCC_PREFIX_HEADER = "computer/computer-Prefix.pch";
 				INFOPLIST_FILE = "computer/computer-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				TARGETED_DEVICE_FAMILY = "1,2";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
